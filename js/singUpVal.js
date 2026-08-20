@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Un solo mensaje de confirmación
             alert(`¡Bienvenido/a ${nombre}! Voluntario registrado e identificado con éxito.`);
 
-            // Resetear formulario y selector de comuna
+            // Resetear formulario
             form.reset();
             comunaSelect.disabled = true;
             comunaSelect.innerHTML = '<option value=""> Seleccione primero una región </option>';
