@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('¡Voluntario registrado exitosamente!');
             form.reset();
             comunaSelect.disabled = true;
-            comunaSelect.innerHTML = '<option value="">-- Seleccione primero una región --</option>';
+            comunaSelect.innerHTML = '<option value=""> Seleccione primero una región </option>';
         }
     });
 });
