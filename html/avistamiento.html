@@ -1,75 +1,68 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avistamiento de Aves</title>
-    <link rel="stylesheet" href="css/login.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Avistamiento de Aves</title>
+        <link rel="stylesheet" href="css/login.css">
+    </head>
 
-<body>
-    <header>
-    <h1>Unión de Ornitólogos de Chile</h1>
-    <nav>
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="login.html">Registrar Voluntario</a></li>
-            <li><a href="avistamiento.html">Informar Avistamiento</a></li>
-            <li><a href="dashBoard.html">Estadísticas</a></li>
-        </ul>
-    </nav>
-    </header>
+    <body>
+        <header>
+            <h1>Unión de Ornitólogos de Chile</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="login.html">Registro / Login</a></li>
+                    <li><a href="avistamiento.html">Informar Avistamiento</a></li>
+                    <li><a href="dashBoard.html">Estadísticas</a></li>
+                </ul>
+            </nav>
+        </header>
 
-    <main>
-        <h2>Formulario de Avistamiento de aves</h2>
-        <p>Los campos marcados con (*) son obligatorios.</p>
+        <main>
+            <h2>Formulario de Avistamiento de aves</h2>
+            <p>Los campos marcados con (*) son obligatorios.</p>
+            
+            <!-- Contenedor para mostrar los errores de validacion -->
+            <div id="mensajes-error" role="alert"></div>
 
-        <!-- Contenedor para mostrar los errores de validacion -->
-        <div id="mensajes-error" role="alert"></div>
+            <form id="form-voluntario" action="#" method="post">  
+                <fieldset>
+                    <legend>Información</legend>
+                    <p>
+                        <label for="nombre-ave">Nombre Del Ave (*):</label>
+                        <input type="text" id="nombre-ave" name="nombre-ave">
+                    </p>
+                    <p>
+                        <label for="tipo-ave">Tipo del Ave (*):</label>
+                        <input type="text" id="tipo-ave" name="tipo-ave">
+                    </p>
+                </fieldset>
 
-        
-        <form id="form-voluntario" action="#" method="post">  
-            <fieldset>
-                <legend>Información</legend>
-                
-                <p>
-                    <label for="nombre">Nombre Del Ave (*):</label>
-                    <input type="text" id="nombre" name="nombre">
-                </p>
+                <fieldset>
+                    <legend>Fecha y Hora del Avistamiento</legend>
+                    <p>
+                        <label for="fecha">Fecha (*):</label>
+                        <input type="date" id="fecha" name="fecha">
+                    </p>
+                    <p>
+                        <label for="hora">Hora (*):</label>
+                        <input type="time" id="hora" name="hora">
+                    </p>
+                </fieldset>
 
-                <p>
-                    <label for="tipo">Tipo del Ave (*):</label>
-                    <input type="text" id="tipo" name="tipo">
-                </p>
-            </fieldset>
+                <fieldset>
+                    <legend>Registro Visual</legend>
+                    <p>
+                        <label for="multimedia">Foto o Vídeo del Avistamiento (*):</label>
+                        <input type="file" id="multimedia" name="multimedia" accept="image/*,video/*">
+                    </p>
+                </fieldset>
 
-            <fieldset>
-                <legend>Fecha y Hora del Avistamiento</legend>
-
-                <p>
-                    <label for="fecha">Fecha del Avistamiento (*):</label>
-                    <input type="date" id="fecha" name="fecha">
-                </p>
-
-                <p>
-                    <label for="hora">Hora del Avistamiento (*):</label>
-                    <input type="time" id="hora" name="hora">
-                </p>
-            </fieldset>
-
-            <fieldset>
-                <legend>Registro Visual</legend>
-
-                <p>
-                    <label for="multimedia">Foto o Vídeo del Avistamiento (*):</label>
-                    <input type="file" id="multimedia" name="multimedia" accept="image/*,video/*">
-                </p>
-            </fieldset>
-
-
-            <button type="submit">Registrar Avistamiento</button>
-        </form>
-    </main>
-    <script src="../js/singUpVal.js"></script>
-</body>
+                <button type="submit">Registrar Avistamiento</button>
+            </form>
+        </main>
+        <script src="../js/avistamientoVal.js"></script>
+    </body>
 </html>
