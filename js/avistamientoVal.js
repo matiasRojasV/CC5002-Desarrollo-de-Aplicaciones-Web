@@ -1,4 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Verificar estado en el localStorage
+    const estaRegistrado = localStorage.getItem('voluntarioRegistrado');
+
+    if (!estaRegistrado) {
+        // Alerta que notifica la restricción
+        alert('Acceso Restringido\n\nDebes estar registrado como voluntario para ingresar un avistamiento. Serás redirigido al formulario de registro.');
+        
+        // Redirección inmediata a la página de login / registro
+        window.location.href = '../html/login.html';
+        return; // Detiene la ejecución del resto del script
+    }
+
+    // Si está registrado, muestra un mensaje de bienvenida dinámico
+    const nombreVoluntario = localStorage.getItem('nombreVoluntario') || 'Voluntario';
+    const contenedorBienvenida = document.getElementById('mensaje-bienvenida');
+    if (contenedorBienvenida) {
+        contenedorBienvenida.textContent = `Sesión activa: ${nombreVoluntario}`;
+    }
+    
     const formAvistamiento = document.getElementById('form-avistamiento');
     const contenedorErrores = document.getElementById('mensajes-error');
 

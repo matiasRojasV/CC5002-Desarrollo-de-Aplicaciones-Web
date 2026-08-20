@@ -93,10 +93,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             contenedorErrores.appendChild(ul);
         } else {
-            alert('¡Voluntario registrado exitosamente!');
+            // Guardar estado en localStorage
+            localStorage.setItem('voluntarioRegistrado', 'true');
+            localStorage.setItem('nombreVoluntario', nombre);
+
+            // Un solo mensaje de confirmación
+            alert(`¡Bienvenido/a ${nombre}! Voluntario registrado e identificado con éxito.`);
+
+            // Resetear formulario y selector de comuna
             form.reset();
             comunaSelect.disabled = true;
             comunaSelect.innerHTML = '<option value=""> Seleccione primero una región </option>';
+
+            // Redirigir a la página de avistamientos
+            window.location.href = 'avistamiento.html';
         }
     });
 });
