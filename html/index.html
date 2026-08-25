@@ -26,7 +26,7 @@
 
             <!-- Barra de Filtros y Ordenamiento -->
             <section class="filtros-section">
-                <form id="form-filtros">
+                <form id="form-filtros" onsubmit="event.preventDefault();">
                     <div class="filtro-grupo">
                         <label for="filtro-tipo">Filtrar por Tipo de Ave:</label>
                         <select id="filtro-tipo" name="tipo">
@@ -97,5 +97,6 @@
                 </div>
             </section>
         </main>
+        <script src="../js/indexFilter.js"></script>
     </body>
 </html>
