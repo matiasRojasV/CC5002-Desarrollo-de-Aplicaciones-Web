@@ -113,8 +113,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             comunaSelect.disabled = true;
             comunaSelect.innerHTML = '<option value=""> Seleccione primero una región </option>';
 
-            // Redirigir a la página de avistamientos
-            window.location.href = 'avistamiento.html';
+            // Redirigir a la página de principal
+            window.location.href = 'index.html';
         }
     });
 });
