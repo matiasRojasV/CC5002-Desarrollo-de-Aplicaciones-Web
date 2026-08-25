@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('Acceso Restringido\n\nDebes estar registrado como voluntario para ingresar un avistamiento. Serás redirigido al formulario de registro.');
         
         // Redirección inmediata a la página de login / registro
-        window.location.href = '../html/login.html';
-        return; // Detiene la ejecución del resto del script
+        window.location.href = 'login.html';
+        return;
     }
 
     // Si está registrado, muestra un mensaje de bienvenida dinámico
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const horaInput = document.getElementById('hora').value;
         const archivoInput = document.getElementById('multimedia');
 
-        // 1. Validación de campos de texto y selección[cite: 1]
+        // Validación de campos de texto y selección
         if (!tipoAve) {
             errores.push('Debe seleccionar el tipo de ave.');
         }
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             errores.push('Debe ingresar el lugar del avistamiento.');
         }
 
-        // 2. Validación de Fecha y Hora nativas[cite: 1]
+        // Validación de Fecha y Hora nativas
         if (!fechaInput) {
             errores.push('Debe indicar la fecha del avistamiento.');
         }
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             errores.push('Debe indicar la hora del avistamiento.');
         }
 
-        // 3. Reglas de negocio para Fecha y Hora[cite: 1]
+        // Reglas para Fecha y Hora
         if (fechaInput && horaInput) {
             // Los inputs nativos entregan formatos ISO: "YYYY-MM-DD" y "HH:mm"
             const fechaHoraAvistamiento = new Date(`${fechaInput}T${horaInput}`);
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 4. Validación obligatoria de Foto o Vídeo[cite: 1]
+        // Validación obligatoria de Foto o Vídeo
         if (!archivoInput || !archivoInput.files || archivoInput.files.length === 0) {
             errores.push('Debe adjuntar al menos un registro en foto o vídeo.');
         } else {
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         }
 
-        // 5. Renderizado de errores o envío exitoso
+        // Renderizado de errores o envío exitoso
         if (errores.length > 0) {
             const ul = document.createElement('ul');
             ul.style.color = 'red';
@@ -101,6 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             alert('¡Avistamiento registrado exitosamente!');
             formAvistamiento.reset();
+
+            // Redirigir a la página de avistamientos
+            window.location.href = 'index.html';
         }
     });
 });

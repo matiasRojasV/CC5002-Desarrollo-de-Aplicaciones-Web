@@ -27,7 +27,7 @@
             <!-- Contenedor para mostrar los errores de validacion -->
             <div id="mensajes-error" role="alert"></div>
 
-            <form id="form-voluntario" action="#" method="post">  
+            <form id="form-avistamiento" action="#" method="get">  
                 <fieldset>
                     <legend>Información</legend>
                     <p>
@@ -42,6 +42,10 @@
                             <option value="terrestre">Terrestre </option>
                             <option value="acuatica">Acuática </option>
                         </select>
+                    </p>
+                    <p>
+                        <label for="lugar">Lugar del Avistamiento (*):</label>
+                        <input type="text" id="lugar" name="lugar" placeholder="Ej: Parque Nacional La Campana">
                     </p>
                 </fieldset>
 
