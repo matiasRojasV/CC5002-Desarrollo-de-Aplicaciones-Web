@@ -1,21 +1,29 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const regionSelect = document.getElementById('region');
     const comunaSelect = document.getElementById('comuna');
     const form = document.getElementById('form-voluntario');
     const contenedorErrores = document.getElementById('mensajes-error');
 
-    // Cargar todas las Regiones al iniciar la página
-    if (typeof RegionesYcomunas !== 'undefined' && RegionesYcomunas.regiones) {
+    let RegionesYcomunas = { regiones: [] };
+
+    // Cargar el archivo JSON
+    try {
+        const response = await fetch('../js/regiones.json');
+        RegionesYcomunas = await response.json();
+
+        // Cargar todas las Regiones
         regionSelect.innerHTML = '<option value=""> Seleccione una región </option>';
         RegionesYcomunas.regiones.forEach((regionObj) => {
-        const option = document.createElement('option');
-        option.value = regionObj.NombreRegion;
-        option.textContent = regionObj.NombreRegion;
-        regionSelect.appendChild(option);
+            const option = document.createElement('option');
+            option.value = regionObj.NombreRegion;
+            option.textContent = regionObj.NombreRegion;
+            regionSelect.appendChild(option);
         });
+    } catch (error) {
+        console.error('Error al cargar regiones.json:', error);
     }
 
-    // Evento para actualizar el selector de Comunas según la Región elegida
+    // Evento para actualizar el selector de Comunas
     regionSelect.addEventListener('change', () => {
         const nombreRegion = regionSelect.value;
         
@@ -30,10 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (regionEncontrada && regionEncontrada.comunas) {
                 regionEncontrada.comunas.forEach((comuna) => {
-                const option = document.createElement('option');
-                option.value = comuna;
-                option.textContent = comuna;
-                comunaSelect.appendChild(option);
+                    const option = document.createElement('option');
+                    option.value = comuna;
+                    option.textContent = comuna;
+                    comunaSelect.appendChild(option);
                 });
                 comunaSelect.disabled = false;
             } else {
@@ -44,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Validaciones JS requeridas
+    // Validaciones del formulario
     form.addEventListener('submit', (event) => {
         event.preventDefault();
         contenedorErrores.innerHTML = '';
@@ -93,11 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             contenedorErrores.appendChild(ul);
         } else {
-            // Guardar estado en localStorage
+            // Guardar estado en local
             localStorage.setItem('voluntarioRegistrado', 'true');
             localStorage.setItem('nombreVoluntario', nombre);
 
-            // Un solo mensaje de confirmación
+            // Mensaje de confirmación
             alert(`¡Bienvenido/a ${nombre}! Voluntario registrado e identificado con éxito.`);
 
             // Resetear formulario
