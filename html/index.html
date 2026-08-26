@@ -28,7 +28,7 @@
             <p>Consulta los avistamientos reportados por voluntarios en todo el país.</p>
 
             <!-- Barra de Filtros y Ordenamiento -->
-            <section class="filtros-section">
+            <div class="filtros-section">
                 <form id="form-filtros" onsubmit="event.preventDefault();">
                     <div class="filtro-grupo">
                         <label for="filtro-tipo">Filtrar por Tipo de Ave:</label>
@@ -49,10 +49,10 @@
                         </select>
                     </div>
                 </form>
-            </section>
+            </div>
 
             <!-- Contenedor con Scroll para Avistamientos -->
-            <section class="contenedor-scroll">
+            <div class="contenedor-scroll">
                 <div class="lista-avistamientos">    
                     <article class="tarjeta-ave">
                         <img src="https://static.wikia.nocookie.net/reinoanimalia/images/d/d1/Andean_condor_by_Alamy.jpg/revision/latest/scale-to-width-down/1000?cb=20250902201815&path-prefix=es" alt="Cóndor Andino">
@@ -99,7 +99,7 @@
                     </article>
                     
                     <article class="tarjeta-ave">
-                        <img src="https://fvsm.eu/wp-content/uploads/2020/11/Voltor-A-1-250603.jpeg" alt="Cóndor Andino">
+                        <img src="https://fvsm.eu/wp-content/uploads/2020/11/Voltor-A-1-250603.jpeg" alt="Buitre Negro">
                         <div class="info-ave">
                             <h3>Buitre Negro</h3>
                             <p><strong>Tipo:</strong> Ave de Rapiña</p>
@@ -114,7 +114,7 @@
 
 
                 </div>
-            </section>
+            </div>
         </main>
         <script src="../js/indexFilter.js"></script>
         <script src="../js/authHeader.js"></script>
