@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const ordenarPor = document.getElementById('ordenar-por');
     const contenedorLista = document.querySelector('.lista-avistamientos');
     const tarjetas = Array.from(document.querySelectorAll('.tarjeta-ave'));
+    const btnAnterior = document.getElementById('btn-anterior');
+    const btnSiguiente = document.getElementById('btn-siguiente');
+    const paginacionInfo = document.getElementById('paginacion-info');
+
+    const elementosPorPagina = 3;
+    let paginaActual = 1;
+    let totalPaginas = 1;
 
     // Capturar y estructurar la información de cada tarjeta visible
     const datosTarjetas = tarjetas.map((tarjeta) => {
@@ -32,18 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     });
 
-    // Función principal para filtrar y ordenar
-    function aplicarFiltrosYOrden() {
+    // Obtiene la lista filtrada y ordenada según controles del formulario.
+    function obtenerFiltradosYOrdenados() {
         const valTipo = filtroTipo?.value.toLowerCase() || '';
         const valOrden = ordenarPor?.value || 'fecha-desc';
 
-        // Filtrar elementos
         const filtrados = datosTarjetas.filter((item) => {
             const coincideTipo = !valTipo || item.tipo.includes(valTipo);
             return coincideTipo;
         });
 
-        // Ordenar elementos
         filtrados.sort((a, b) => {
             if (valOrden === 'fecha-desc') {
                 return b.fechaObj - a.fechaObj;
@@ -55,18 +60,69 @@ document.addEventListener('DOMContentLoaded', () => {
             return 0;
         });
 
-        // Renderizar resultados en el DOM
+        return filtrados;
+    }
+
+    // Renderiza una página del resultado actual y actualiza el estado de los botones.
+    function renderizarPagina(filtrados) {
+        totalPaginas = Math.max(1, Math.ceil(filtrados.length / elementosPorPagina));
+
+        if (paginaActual > totalPaginas) {
+            paginaActual = totalPaginas;
+        }
+
+        const inicio = (paginaActual - 1) * elementosPorPagina;
+        const fin = inicio + elementosPorPagina;
+        const pagina = filtrados.slice(inicio, fin);
+
         datosTarjetas.forEach((item) => {
             item.elemento.style.display = 'none';
         });
 
-        filtrados.forEach((item) => {
+        pagina.forEach((item) => {
             item.elemento.style.display = ''; 
-            contenedorLista.appendChild(item.elemento); // Reordena en el DOM
+            contenedorLista.appendChild(item.elemento);
         });
+
+        paginacionInfo.textContent = `Pagina ${paginaActual} de ${totalPaginas}`;
+        btnAnterior.disabled = paginaActual === 1;
+        btnSiguiente.disabled = paginaActual === totalPaginas;
+
+        if (filtrados.length === 0) {
+            paginacionInfo.textContent = 'Pagina 0 de 0';
+            btnAnterior.disabled = true;
+            btnSiguiente.disabled = true;
+        }
     }
 
-    // Eventos de escucha en los controles de entrada
-    filtroTipo?.addEventListener('change', aplicarFiltrosYOrden);
-    ordenarPor?.addEventListener('change', aplicarFiltrosYOrden);
+    function aplicarFiltrosOrdenYPaginacion() {
+        const filtrados = obtenerFiltradosYOrdenados();
+        renderizarPagina(filtrados);
+    }
+
+    filtroTipo?.addEventListener('change', () => {
+        paginaActual = 1;
+        aplicarFiltrosOrdenYPaginacion();
+    });
+
+    ordenarPor?.addEventListener('change', () => {
+        paginaActual = 1;
+        aplicarFiltrosOrdenYPaginacion();
+    });
+
+    btnAnterior?.addEventListener('click', () => {
+        if (paginaActual > 1) {
+            paginaActual -= 1;
+            aplicarFiltrosOrdenYPaginacion();
+        }
+    });
+
+    btnSiguiente?.addEventListener('click', () => {
+        if (paginaActual < totalPaginas) {
+            paginaActual += 1;
+            aplicarFiltrosOrdenYPaginacion();
+        }
+    });
+
+    aplicarFiltrosOrdenYPaginacion();
 });
