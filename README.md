@@ -1,42 +1,66 @@
-# Estructura del Proyecto
+# Tarea 1 - CC5002 Aplicaciones Web
 
-El proyecto sigue una arquitectura estática modular, separando responsabilidades entre HTML, CSS y JavaScript:
+## Estructura del proyecto
 
-* **`index.html`**: Página principal con el feed de avistamientos.
-  * Lógica: `indexFilter.js` (Permite filtrar por tipo de ave y ordenar por fecha/lugar dinámicamente manipulando el DOM).
-* **`login.html`**: Formulario de registro de voluntarios.
-  * Lógica: `singUpVal.js` (Validación de campos, expresiones regulares para celular y carga dinámica de regiones/comunas usando `regiones.json`).
-* **`avistamiento.html`**: Formulario para registrar un ave.
-  * Lógica: `avistamientoVal.js` (Validación de fechas en formato ISO, restricciones de antigüedad máxima de 1 año y verificación de archivos adjuntos).
-* **`dashboard.html`**: Panel de métricas.
-  * Lógica: `dashboard.js` (Implementación de gráficos interactivos usando la librería `Chart.js`).
-* **Archivos Globales**:
-  * `authHeader.js`: Script global que verifica la sesión y actualiza la cabecera en todas las páginas.
-  * `regiones.json`: Base de datos local con la división territorial de Chile.
-  * `styles.css`: Hoja de estilos única con variables CSS y diseño responsivo.  
+Este prototipo fue desarrollado con HTML5, CSS3 y JavaScript, sin backend ni base de datos.
 
+- `html/index.html`: listado de avistamientos con filtro, ordenamiento y paginacion.
+- `html/login.html`: formulario de registro de voluntarios.
+- `html/avistamiento.html`: formulario para informar avistamientos.
+- `html/dashboard.html`: panel de metricas con graficos.
+- `js/singUpVal.js`: validacion del registro y carga de regiones/comunas desde JSON.
+- `js/avistamientoVal.js`: validacion del formulario de avistamiento y control de acceso por sesion.
+- `js/indexFilter.js`: filtro por tipo, ordenamiento y logica de paginacion del listado.
+- `js/dashboard.js`: configuracion de graficos usando Chart.js.
+- `js/authHeader.js`: renderizado del estado de sesion en cabecera y cierre de sesion.
+- `js/regiones.json`: datos de regiones y comunas de Chile.
+- `css/styles.css`: archivo de entrada de estilos.
+- `css/modules/`: estilos separados por responsabilidad (`base.css`, `layout.css`, `forms.css`, `index.css`, `dashboard.css`).
 
+## Decisiones tecnicas y de diseno
 
-# Decisiones Técnicas y de Diseño
+## 1) HTML semantico y codigo legible
+Se priorizo el uso de etiquetas semanticas (`header`, `nav`, `main`, `article`, `fieldset`) para mantener una estructura clara y facilitar validacion y mantencion.
 
-Para garantizar un código limpio, semántico y eficiente, se tomaron las siguientes decisiones de diseño e implementación:
+## 2) Validaciones en JavaScript
+Las reglas de validacion se implementaron en JavaScript, por ejemplo:
 
-## 1. HTML5 Semántico y Validación W3C
-Se aplicó un uso riguroso de etiquetas semánticas (`<header>`, `<main>`, `<nav>`, `<article>`, `<fieldset>`). 
-* **Detalle de corrección:** En `index.html`, los contenedores de la barra de filtros y del *scroll* de avistamientos utilizan la etiqueta `<div>` en lugar de `<section>`. Esto se debe a que, según la especificación W3C, un `<section>` requiere un encabezado (`<h2>`-`<h6>`). Al ser componentes puramente estructurales/visuales, el uso de `<div>` evita *warnings* en el validador oficial, logrando un código 100% válido.
+- Registro: nombre minimo, formato de correo, formato de celular chileno, region y comuna obligatorias.
+- Avistamiento: tipo, nombre y lugar obligatorios, fecha/hora no futura, limite de antiguedad y archivo multimedia obligatorio.
 
-## 2. Flujo del Documento en CSS (Posicionamiento Absoluto)
-El control de sesión (botón "Registro / Login" o "Hola, [Nombre]") se visualiza en la esquina superior derecha del encabezado, separado del menú de navegación.
-* **Detalle de corrección:** En lugar de ensuciar la etiqueta `<nav>`, se extrajo el `#auth-container` y se posicionó mediante `position: absolute;` (referenciado al `<header>` con `position: relative;`). Esto permite que el título de la página y los enlaces principales mantengan una simetría y centrado matemáticamente perfecto sin verse empujados por el bloque de inicio de sesión.
+## 3) Sesion local sin backend (Web Storage)
+Como la tarea es un prototipo estatico, la cuenta/sesion se simula en `localStorage`:
 
-## 3. Persistencia de Sesión sin Backend (Web Storage API)
-Dado que el prototipo no cuenta con base de datos, se simuló el flujo completo de autenticación.
-* **Detalle de corrección:** Al registrarse un voluntario (`singUpVal.js`), se guarda una bandera y el nombre en `localStorage`. El script global `authHeader.js` lee estos datos y re-renderiza dinámicamente la esquina superior derecha en todas las páginas. Adicionalmente, `avistamientoVal.js` protege la ruta de avistamientos: si un usuario no registrado intenta acceder a la URL, es interceptado y redirigido al `login.html`.
+- Al registrarse correctamente, se guardan:
+  - `voluntarioRegistrado = "true"`
+  - `nombreVoluntario = "<nombre ingresado>"`
+- `authHeader.js` lee esos datos para mostrar en el header:
+  - estado no autenticado: enlace `Registro / Login`
+  - estado autenticado: saludo + boton `Cerrar Sesion`
+- Al cerrar sesion, se eliminan ambas claves del `localStorage`.
+- `avistamientoVal.js` restringe el acceso al formulario de avistamiento si no existe sesion activa, redirigiendo a `login.html`.
 
-## 4. Carga Asíncrona de Datos (Fetch API & JSON)
-El selector de regiones y comunas en `login.html` no está escrito en duro en el HTML.
-* **Detalle de corrección:** Se utilizó `fetch('../js/regiones.json')` junto con `async/await` para leer el archivo JSON local. Al seleccionar una región, un evento dinámico busca las comunas correspondientes en la estructura de datos y repuebla el `<select>` secundario, demostrando manejo avanzado de asincronía y manipulación del DOM.
+Esta decision permite probar el flujo completo de navegacion y permisos sin necesidad de servidor ni persistencia real.
 
-## 5. Manipulación Avanzada del DOM (Filtros y Ordenamiento)
-En la página principal, los filtros no ocultan los elementos con CSS, sino que reordenan la estructura real.
-* **Detalle de corrección:** En `indexFilter.js`, el script extrae la información contenida en las tarjetas (`<article>`), formatea las fechas a objetos `Date` y utiliza `Array.prototype.filter()` y `.sort()`. Finalmente, utiliza `appendChild()` para reinyectar los nodos en el DOM en el orden correcto de forma instantánea.
+## 4) CSS modular simple
+Se separo el CSS por responsabilidades:
+
+- `base.css`: reset, variables y estilos globales.
+- `layout.css`: header, navegacion y contenedor principal.
+- `forms.css`: formularios, inputs, botones y mensajes de error.
+- `index.css`: estilos del listado de avistamientos y paginacion.
+- `dashboard.css`: estilos especificos del dashboard.
+
+`styles.css` actua como agregador mediante `@import`, por lo que cada HTML mantiene un solo `<link>` principal.
+
+## 5) Listado de avistamientos con filtro, orden y paginacion
+En `index.html` se implementa:
+
+- filtro por tipo de ave,
+- orden por fecha (asc/desc) y lugar,
+- paginacion en cliente (`Anterior`, `Siguiente`, indicador de pagina).
+
+La logica en `indexFilter.js` trabaja sobre nodos del DOM ya cargados, evitando recargas de pagina.
+
+## 6) Dashboard de metricas
+`dashboard.html` usa Chart.js para mostrar indicadores de voluntarios y avistamientos. Los estilos de esta vista se movieron a `css/modules/dashboard.css` para evitar CSS embebido en HTML.
