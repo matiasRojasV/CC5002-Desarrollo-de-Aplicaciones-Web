@@ -40,8 +40,8 @@ header {
 
 #auth-container {
     position: absolute;
-    top: 1.5rem;   /* Distancia desde arriba */
-    right: 2rem;   /* Distancia desde la derecha */
+    top: 1.5rem;   
+    right: 2rem;   
     display: flex;
     align-items: center;
     gap: 0.8rem;
@@ -106,7 +106,7 @@ nav a:hover {
     color: var(--accent);
 }
 
-/* Contenedor Principal (Main) */
+/* Contenedor Principal */
 main {
     width: 100%;
     max-width: 800px;
@@ -222,7 +222,7 @@ button[type="submit"]:hover {
     border-left: 4px solid var(--error);
 }
 
-/* Estilos específicos para index.html (Filtros y Tarjetas) */
+/* Estilos específicos para index */
 .filtros-section {
     background-color: #fafafa;
     padding: 1rem;
@@ -282,7 +282,7 @@ button[type="submit"]:hover {
     color: var(--primary);
 }
 
-/* Scrollbar personalizado para navegadores webkit */
+/* Scrollbar para navegadores webkit */
 .contenedor-scroll::-webkit-scrollbar {
     width: 8px;
 }
